@@ -1,6 +1,6 @@
 ---
 
-- hosts: ub3
+- hosts: webservers
   become: true
   tasks:
 
