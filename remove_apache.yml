@@ -1,0 +1,19 @@
+---
+
+- hosts: ub3
+  become: true
+  tasks:
+
+  - name: update apt cache
+    apt:
+      update_cache: yes
+        
+  - name: install apache pkg
+    apt:
+      name: apache2
+      state: absent
+
+  - name: add php support for apache
+    apt:
+      name: libapache2-mod-php
+      state: absent
