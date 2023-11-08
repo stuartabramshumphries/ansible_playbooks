@@ -1,0 +1,13 @@
+---
+
+- hosts: clients
+  become: true
+  tasks:
+
+  - name: Return motd to registered var
+    ansible.builtin.command: df -h /
+    register: mymotd
+
+  - name: Print the registered variable value
+    debug:
+      msg: "{{ mymotd.stdout }}"
