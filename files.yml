@@ -1,0 +1,13 @@
+---
+
+- hosts: clients
+  become: true
+  tasks:
+  - name: copy file
+    ansible.builtin.copy:
+      src: ./myfiles/foo.conf 
+      dest: /etc/foo.conf
+      owner: root
+      group: root
+      mode: '0644'
+      backup: yes
