@@ -1,13 +1,41 @@
 ---
 
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: Install Updates (Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install Updates (RHEL)
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "RHEL"
+
 - hosts: webservers
   become: true
   tasks:
 
+  - name: Set fact for Debian
+    set_fact:
+      webvar: "apache2"
+      weblib: "libapache2-mod-php"
+    when: ansible_os_family == "Debian"
+
+  - name: Set fact for RedHat
+    set_fact:
+      webvar: "httpd"
+      weblib: "php"
+    when: ansible_os_family == "RedHat"
+  
   - name: install apache and php pkg
     package:
       name:
-        - apache2
-        - libapache2-mod-php
+        - "{{ webvar }}"
+        - "{{ weblib }}"
       state: latest
       update_cache: yes
