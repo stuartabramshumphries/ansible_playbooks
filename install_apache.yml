@@ -5,12 +5,14 @@
   pre_tasks:
 
   - name: Install Updates (Ubuntu)
+    tags: ubuntu
     apt:
       upgrade: dist
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
   - name: Install Updates (RHEL)
+    tags: rhel
     dnf:
       update_only: yes
       update_cache: yes
@@ -21,18 +23,30 @@
   tasks:
 
   - name: Set fact for Debian
+    tags: 
+      - apache
+      - httpd
+      - php
     set_fact:
       webvar: "apache2"
       weblib: "libapache2-mod-php"
     when: ansible_os_family == "Debian"
 
   - name: Set fact for RedHat
+    tags: 
+      - apache
+      - httpd
+      - php
     set_fact:
       webvar: "httpd"
       weblib: "php"
     when: ansible_os_family == "RedHat"
   
   - name: install apache and php pkg
+    tags: 
+      - apache
+      - httpd
+      - php
     package:
       name:
         - "{{ webvar }}"
