@@ -21,6 +21,15 @@
 - hosts: webservers
   become: true
   tasks:
+  - name: copy file
+    copy:
+      src: ./myfiles/def_home.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: '0644'
+      backup: yes
+
 
   - name: Set fact for Debian
     tags: 
